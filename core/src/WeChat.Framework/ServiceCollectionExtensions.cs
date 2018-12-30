@@ -16,8 +16,8 @@ namespace WeChat.Framework
             //Json结果格式化
             services
                 .AddTransient<IJsonResponseParser, JsonResponseParser>()
-                .AddTransient<IWeChatAccessTokenStore, EmptyWeChatAccessTokenStore>()
-                .AddTransient<IWeChatSdkTicketStore, EmptyWeChatSdkTicketStore>()
+                .AddTransient<IWeChatAccessTokenStore, MemoryWeChatAccessTokenStore>()
+                .AddTransient<IWeChatSdkTicketStore, MemoryWeChatSdkTicketStore>()
                 .AddTransient<IWeChatAccessTokenService, WeChatAccessTokenService>()
                 .AddTransient<IWeChatSdkTicketService, WeChatSdkTicketService>();
 

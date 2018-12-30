@@ -8,14 +8,14 @@ namespace WeChat.Framework
     {
         /// <summary>SqlServer配置信息
         /// </summary>
-        protected WeChatSqlServerOption Option { get; set; }
+        protected WeChatFrameworkSqlServerOption Option { get; set; }
         /// <summary>Logger
         /// </summary>
         protected ILogger Logger { get; set; }
 
         /// <summary>Ctor
         /// </summary>
-        public BaseSqlServerStore(WeChatSqlServerOption option, ILogger<WeChatLoggerName> logger)
+        public BaseSqlServerStore(WeChatFrameworkSqlServerOption option, ILogger<WeChatLoggerName> logger)
         {
             Option = option;
             Logger = logger;

@@ -11,11 +11,13 @@ namespace WeChat.Framework.Infrastructure.Store
     /// </summary>
     public class SqlServerWeChatSdkTicketStore : BaseSqlServerStore, IWeChatSdkTicketStore
     {
+        private string _tableName;
+
         /// <summary>Ctor
         /// </summary>
-        public SqlServerWeChatSdkTicketStore(WeChatSqlServerOption option, ILogger<WeChatLoggerName> logger) : base(option, logger)
+        public SqlServerWeChatSdkTicketStore(WeChatFrameworkSqlServerOption option, ILogger<WeChatLoggerName> logger) : base(option, logger)
         {
-
+            _tableName = option.SdkTicketTableName;
         }
 
         /// <summary>表名称
@@ -33,7 +35,7 @@ namespace WeChat.Framework.Infrastructure.Store
             {
                 using(var connection = GetConnection())
                 {
-                    var sql = $"SELECT TOP 1 * FROM [{TableName}] WHERE AppId=@AppId AND TicketType=@TicketType";
+                    var sql = $"SELECT TOP 1 * FROM [{_tableName}] WHERE AppId=@AppId AND TicketType=@TicketType";
                     return await connection.QueryFirstOrDefaultAsync<SdkTicketModel>(sql, new { AppId = appId, ticketType = ticketType });
                 }
             }
@@ -59,7 +61,7 @@ namespace WeChat.Framework.Infrastructure.Store
                     if (querySdkTicket == null || querySdkTicket.AppId.IsNullOrWhiteSpace())
                     {
                         //创建
-                        sql = $"INSERT INTO {TableName} (AppId,Ticket,ExpiredIn,LastModifiedTime,TicketType) VALUES (@AppId,@Ticket,@ExpiredIn,@LastModifiedTime,@TicketType)";
+                        sql = $"INSERT INTO {_tableName} (AppId,Ticket,ExpiredIn,LastModifiedTime,TicketType) VALUES (@AppId,@Ticket,@ExpiredIn,@LastModifiedTime,@TicketType)";
                     }
                     else
                     {
