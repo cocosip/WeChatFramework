@@ -1,10 +1,10 @@
+using DotCommon.Extensions;
 using DotCommon.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using WeChat.Framework.Infrastructure.Store;
 using WeChat.Framework.Model;
-
 namespace WeChat.Framework.Service
 {
 
@@ -13,12 +13,14 @@ namespace WeChat.Framework.Service
     public class WeChatSdkTicketService : WeChatFrameServiceBase, IWeChatSdkTicketService
     {
         private readonly IWeChatSdkTicketStore _weChatSdkTicketStore;
+        private readonly IWeChatAccessTokenService _weChatAccessTokenService;
 
         /// <summary>Ctor
         /// </summary>
-        public WeChatSdkTicketService(IServiceProvider provider, ILogger<WeChatLoggerName> logger, IWeChatSdkTicketStore weChatSdkTicketStore) : base(provider, logger)
+        public WeChatSdkTicketService(IServiceProvider provider, ILogger<WeChatLoggerName> logger, IWeChatSdkTicketStore weChatSdkTicketStore, IWeChatAccessTokenService weChatAccessTokenService) : base(provider, logger)
         {
             _weChatSdkTicketStore = weChatSdkTicketStore;
+            _weChatAccessTokenService = weChatAccessTokenService;
         }
 
         /// <summary>获取可用的Sdk-Ticket(先从本地存储中获取,如果不存在,就从微信接口获取)
@@ -59,10 +61,15 @@ namespace WeChat.Framework.Service
         /// <returns></returns>
         public async Task<SdkTicket> GetRemoteSdkTicketAsync(string appId, string appSecret, string type)
         {
+            //先拿到应用的AccessToken
+            var accessToken = await _weChatAccessTokenService.GetAccessTokenAsync(appId, appSecret);
+            if (accessToken.IsNullOrWhiteSpace())
+            {
+                Logger.LogError("微信获取SdkTicket时,查询到的AccessToken为空");
+            }
             var ticketType = type.ToUpper();
             IHttpRequest request = new HttpRequest("https://api.weixin.qq.com/cgi-bin/ticket/getticket", Method.GET)
-                .AddParameter("appid", appId)
-                .AddParameter("secret", appSecret)
+                .AddParameter("access_token", accessToken)
                 .AddParameter("type", type);
             var response = await Client.ExecuteAsync(request);
             Logger.LogDebug(ParseLog(appId, "GetRemoteSdkTicketAsync", $"获取应用SdkTicket,类型:{type},返回结果:{response.Content}"));

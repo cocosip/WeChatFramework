@@ -4,6 +4,7 @@ namespace WeChat.Framework.Model
 {
     /// <summary>微信应用AccessToken 存储Model实体
     /// </summary>
+    [Serializable]
     public class AccessTokenModel
     {
         /// <summary>AppId

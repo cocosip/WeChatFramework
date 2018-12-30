@@ -1,4 +1,6 @@
 using DotCommon.Serializing;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace WeChat.Framework.Parser
 {
@@ -7,12 +9,14 @@ namespace WeChat.Framework.Parser
     public class JsonResponseParser : IJsonResponseParser
     {
         private readonly IJsonSerializer _jsonSerializer;
+        private readonly ILogger _logger;
 
         /// <summary>Ctor
         /// </summary>
-        public JsonResponseParser(IJsonSerializer jsonSerializer)
+        public JsonResponseParser(ILogger<WeChatLoggerName> logger, IJsonSerializer jsonSerializer)
         {
             _jsonSerializer = jsonSerializer;
+            _logger = logger;
         }
 
 
@@ -20,7 +24,15 @@ namespace WeChat.Framework.Parser
         /// </summary>
         public virtual T ParseResponse<T>(string json)where T : class
         {
-            return _jsonSerializer.Deserialize<T>(json);
+            try
+            {
+                return _jsonSerializer.Deserialize<T>(json);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("微信ParseResponse失败,返回数据为:{0},无法转化为类型:{1},Ex:{2}", json, typeof(T), ex.Message);
+                throw;
+            }
         }
     }
 }

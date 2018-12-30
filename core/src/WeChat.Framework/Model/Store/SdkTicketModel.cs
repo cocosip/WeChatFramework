@@ -5,6 +5,7 @@ namespace WeChat.Framework.Model
 
     /// <summary>Sdk-Ticket
     /// </summary>
+    [Serializable]
     public class SdkTicketModel
     {
         /// <summary>AppId

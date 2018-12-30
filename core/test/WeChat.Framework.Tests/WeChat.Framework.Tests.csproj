@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\WeChat.Framework\WeChat.Framework.csproj" />
+  </ItemGroup>
+
 </Project>
