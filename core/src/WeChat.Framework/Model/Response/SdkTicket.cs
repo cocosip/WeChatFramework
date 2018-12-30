@@ -15,7 +15,7 @@ namespace WeChat.Framework.Model
         /// <summary>错误信息
         /// </summary>
         [JsonProperty("errmsg")]
-        public int ErrMsg { get; set; }
+        public string ErrMsg { get; set; }
 
         /// <summary>临时票据 ticket
         /// </summary>
