@@ -1,5 +1,4 @@
 using DotCommon.Caching;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using WeChat.Framework.Model;
 
@@ -9,14 +8,12 @@ namespace WeChat.Framework.Infrastructure.Store
     /// </summary>
     public class MemoryWeChatSdkTicketStore : IWeChatSdkTicketStore
     {
-        private readonly ILogger _logger;
         private readonly IDistributedCache<SdkTicketModel> _sdkTicketCache;
 
         /// <summary>Ctor
         /// </summary>
-        public MemoryWeChatSdkTicketStore(ILogger<WeChatLoggerName> logger, IDistributedCache<SdkTicketModel> sdkTicketCache)
+        public MemoryWeChatSdkTicketStore(IDistributedCache<SdkTicketModel> sdkTicketCache)
         {
-            _logger = logger;
             _sdkTicketCache = sdkTicketCache;
         }
 

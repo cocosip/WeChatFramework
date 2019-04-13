@@ -32,22 +32,22 @@ namespace WeChat.Framework.Service
         {
             //从存储中读取AccessToken
             var accessTokenModel = await _weChatAccessTokenStore.GetAccessTokenAsync(appId);
-            if (accessTokenModel == null || (accessTokenModel != null && accessTokenModel.IsExpired(DateTime.Now)))
+            if (accessTokenModel != null && !accessTokenModel.IsExpired(DateTime.Now))
             {
-                //从微信获取AccessToken
-                var accessToken = await GetRemoteAccessTokenAsync(appId, appSecret);
-                accessTokenModel = new AccessTokenModel()
-                {
-                    AppId = appId,
-                    Token = accessToken.Token,
-                    ExpiredIn = accessToken.ExpiresIn,
-                    LastModifiedTime = DateTime.Now
-                };
-                //更新存储中的AccessToken
-                await _weChatAccessTokenStore.CreateOrUpdateAccessTokenAsync(accessTokenModel);
-                return accessToken.Token;
+                return accessTokenModel.Token;
             }
-            return accessTokenModel.Token;
+            //从微信获取AccessToken
+            var accessToken = await GetRemoteAccessTokenAsync(appId, appSecret);
+            accessTokenModel = new AccessTokenModel()
+            {
+                AppId = appId,
+                Token = accessToken.Token,
+                ExpiredIn = accessToken.ExpiresIn,
+                LastModifiedTime = DateTime.Now
+            };
+            //更新存储中的AccessToken
+            await _weChatAccessTokenStore.CreateOrUpdateAccessTokenAsync(accessTokenModel);
+            return accessToken.Token;
         }
 
 
@@ -58,7 +58,7 @@ namespace WeChat.Framework.Service
         /// <returns></returns>
         public async Task<AccessToken> GetRemoteAccessTokenAsync(string appId, string appSecret)
         {
-            IHttpRequest request = new HttpRequest("https://api.weixin.qq.com/cgi-bin/token", Method.GET)
+            IHttpRequest request = new HttpRequest(WeChatSettings.WeChatUrls.AccessTokenUrl, Method.GET)
                 .AddParameter("appid", appId)
                 .AddParameter("secret", appSecret)
                 .AddParameter("grant_type", "client_credential");

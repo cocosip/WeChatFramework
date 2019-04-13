@@ -11,11 +11,9 @@ namespace WeChat.Framework.Infrastructure.Store
     /// </summary>
     public class SqlServerWeChatAccessTokenStore : BaseSqlServerStore, IWeChatAccessTokenStore
     {
-
-
         /// <summary>表名称
         /// </summary>
-        private string _tableName;
+        private readonly string _tableName;
 
         /// <summary>Ctor
         /// </summary>

@@ -11,7 +11,7 @@ namespace WeChat.Framework.Infrastructure.Store
     /// </summary>
     public class SqlServerWeChatSdkTicketStore : BaseSqlServerStore, IWeChatSdkTicketStore
     {
-        private string _tableName;
+        private readonly string _tableName;
 
         /// <summary>Ctor
         /// </summary>
@@ -33,7 +33,7 @@ namespace WeChat.Framework.Infrastructure.Store
         {
             try
             {
-                using(var connection = GetConnection())
+                using (var connection = GetConnection())
                 {
                     var sql = $"SELECT TOP 1 * FROM [{_tableName}] WHERE AppId=@AppId AND TicketType=@TicketType";
                     return await connection.QueryFirstOrDefaultAsync<SdkTicketModel>(sql, new { AppId = appId, ticketType = ticketType });
@@ -52,7 +52,7 @@ namespace WeChat.Framework.Infrastructure.Store
         {
             try
             {
-                using(var connection = GetConnection())
+                using (var connection = GetConnection())
                 {
                     //先查询JsApiTicket,是否存在
                     var querySdkTicket = await GetSdkTicketAsync(sdkTicket.AppId, sdkTicket.TicketType);

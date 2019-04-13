@@ -1,5 +1,4 @@
 using DotCommon.Caching;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using WeChat.Framework.Model;
 namespace WeChat.Framework.Infrastructure.Store
@@ -8,14 +7,12 @@ namespace WeChat.Framework.Infrastructure.Store
     /// </summary>
     public class MemoryWeChatAccessTokenStore : IWeChatAccessTokenStore
     {
-        private readonly ILogger _logger;
         private readonly IDistributedCache<AccessTokenModel> _accessTokenCache;
 
         /// <summary>Ctor
         /// </summary>
-        public MemoryWeChatAccessTokenStore(ILogger<WeChatLoggerName> logger, IDistributedCache<AccessTokenModel> accessTokenCache)
+        public MemoryWeChatAccessTokenStore(IDistributedCache<AccessTokenModel> accessTokenCache)
         {
-            _logger = logger;
             _accessTokenCache = accessTokenCache;
         }
 

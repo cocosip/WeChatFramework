@@ -15,7 +15,7 @@ namespace WeChat.Framework
 
         /// <summary>Ctor
         /// </summary>
-        public BaseSqlServerStore(WeChatFrameworkSqlServerOption option, ILogger<WeChatLoggerName> logger)
+        protected BaseSqlServerStore(WeChatFrameworkSqlServerOption option, ILogger<WeChatLoggerName> logger)
         {
             Option = option;
             Logger = logger;

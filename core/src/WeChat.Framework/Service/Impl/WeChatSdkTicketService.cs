@@ -34,23 +34,24 @@ namespace WeChat.Framework.Service
             //从存储中读取SdkTicketModel
             var ticketType = type.ToUpper();
             var sdkTicketModel = await _weChatSdkTicketStore.GetSdkTicketAsync(appId, ticketType);
-            if (sdkTicketModel == null || (sdkTicketModel != null && sdkTicketModel.IsExpired(DateTime.Now)))
+            if (sdkTicketModel != null && !sdkTicketModel.IsExpired(DateTime.Now))
             {
-                //从微信获取SdkTicket
-                var sdkTicket = await GetRemoteSdkTicketAsync(appId, appSecret, type);
-                sdkTicketModel = new SdkTicketModel()
-                {
-                    AppId = appId,
-                    Ticket = sdkTicket.Ticket,
-                    ExpiredIn = sdkTicket.ExpiresIn,
-                    LastModifiedTime = DateTime.Now,
-                    TicketType = ticketType
-                };
-                //更新存储中的Sdk-Ticket
-                await _weChatSdkTicketStore.CreateOrUpdateSdkTicketAsync(sdkTicketModel);
-                return sdkTicket.Ticket;
+                return sdkTicketModel.Ticket;
             }
-            return sdkTicketModel.Ticket;
+            //从微信获取SdkTicket
+            var sdkTicket = await GetRemoteSdkTicketAsync(appId, appSecret, type);
+            sdkTicketModel = new SdkTicketModel()
+            {
+                AppId = appId,
+                Ticket = sdkTicket.Ticket,
+                ExpiredIn = sdkTicket.ExpiresIn,
+                LastModifiedTime = DateTime.Now,
+                TicketType = ticketType
+            };
+            //更新存储中的Sdk-Ticket
+            await _weChatSdkTicketStore.CreateOrUpdateSdkTicketAsync(sdkTicketModel);
+            return sdkTicket.Ticket;
+
         }
 
         /// <summary>从微信接口获取微信Sdk-Ticket
@@ -68,7 +69,7 @@ namespace WeChat.Framework.Service
                 Logger.LogError("微信获取SdkTicket时,查询到的AccessToken为空");
             }
             var ticketType = type.ToUpper();
-            IHttpRequest request = new HttpRequest("https://api.weixin.qq.com/cgi-bin/ticket/getticket", Method.GET)
+            IHttpRequest request = new HttpRequest(WeChatSettings.WeChatUrls.SdkTicketUrl, Method.GET)
                 .AddParameter("access_token", accessToken)
                 .AddParameter("type", type);
             var response = await Client.ExecuteAsync(request);
