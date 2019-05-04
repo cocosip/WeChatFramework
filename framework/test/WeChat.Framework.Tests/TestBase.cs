@@ -26,7 +26,7 @@ namespace WeChat.Framework.Tests
                 .AddWeChatFramework();
 
             Provider = services.BuildServiceProvider();
-            Provider.UseDotCommon();
+            Provider.ConfigureDotCommon();
         }
     }
 }
