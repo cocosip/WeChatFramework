@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <Import Project="..\..\..\build\common.props" />
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>WeChat.Framework.Oracle</AssemblyName>
+    <PackageId>WeChat.Framework.Oracle</PackageId>
+    <RootNamespace>WeChat.Framework</RootNamespace>
+    <Description>WeChat.Framework.Oracle微信基础库Oracle存储</Description>
+  </PropertyGroup>
+
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <DocumentationFile>bin\Debug\netstandard2.0\WeChat.Framework.Oracle.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\WeChat.Framework.Oracle.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.60.6" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.18.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WeChat.Framework\WeChat.Framework.csproj" />
+  </ItemGroup>
+
+</Project>
