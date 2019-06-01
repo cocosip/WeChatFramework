@@ -39,7 +39,7 @@ public class BuildParameters
     {
         get
         {
-            return !IsLocalBuild && !IsPullRequest && IsTagged && (IsRunningOnTravisCI || (IsRunningOnAppVeyor && IsMasterBranch));
+            return !IsLocalBuild && !IsPullRequest && IsTagged && (IsRunningOnTravisCI || IsRunningOnAppVeyor)&&IsRunningOnWindows;
         }
     }
 
@@ -47,7 +47,7 @@ public class BuildParameters
     {
         get
         {
-            return !IsLocalBuild && !IsPullRequest && IsTagged && (IsRunningOnTravisCI || (IsRunningOnAppVeyor && IsMasterBranch));
+            return !IsLocalBuild && !IsPullRequest && IsTagged && (IsRunningOnTravisCI || IsRunningOnAppVeyor)&&IsRunningOnWindows;
         }
     }
 
@@ -65,7 +65,7 @@ public class BuildParameters
         var versionQuality = doc.DocumentElement.SelectSingleNode("/Project/PropertyGroup/VersionQuality").InnerText;
         versionQuality = string.IsNullOrWhiteSpace(versionQuality) ? null : versionQuality;
 
-           var suffix = "";
+        var suffix = "";
 
         //如果本地发布,就加dev,如果是nuget发布,就加preview
         if (IsLocalBuild)
@@ -92,7 +92,7 @@ public class BuildParameters
             Paths.Directories.NugetRoot,
             Version.VersionWithSuffix(),
             PackageIds,
-            new string[] { });
+            new string[] {});
     }
 
     public static BuildParameters GetParameters(ICakeContext context)
@@ -104,6 +104,7 @@ public class BuildParameters
 
         var target = context.Argument("target", "Default");
         var buildSystem = context.BuildSystem();
+
         var parameters = new BuildParameters
         {
             Target = target,
@@ -112,6 +113,7 @@ public class BuildParameters
             IsRunningOnUnix = context.IsRunningOnUnix(),
             IsRunningOnWindows = context.IsRunningOnWindows(),
             IsRunningOnTravisCI = buildSystem.TravisCI.IsRunningOnTravisCI,
+            IsRunningOnAppVeyor =  buildSystem.AppVeyor.IsRunningOnAppVeyor,
             IsPullRequest = IsThePullRequest(buildSystem),
             IsMasterBranch = IsTheMasterBranch(buildSystem),
             IsDevelopBranch = IsTheDevelopBranch(buildSystem),
@@ -133,6 +135,7 @@ public class BuildParameters
         context.Information($"Cake BuildParameters:-------------begin--------------");
         context.Information($"IsLocalBuild:{parameters.IsLocalBuild}");
         context.Information($"IsRunningOnUnix:{parameters.IsRunningOnUnix}");
+        context.Information($"IsRunningOnWindows:{parameters.IsRunningOnWindows}");
         context.Information($"IsRunningOnTravisCI:{parameters.IsRunningOnTravisCI}");
         context.Information($"IsRunningOnAppVeyor:{parameters.IsRunningOnAppVeyor}");
         context.Information($"IsPullRequest:{parameters.IsPullRequest}");
@@ -141,7 +144,6 @@ public class BuildParameters
         context.Information($"ShouldPublish:{parameters.ShouldPublish}");
         context.Information($"ShouldPublishToNuGet:{parameters.ShouldPublishToNuGet}");
         context.Information($"Cake BuildParameters:---------------end---------------");
-
         return parameters;
     }
 
@@ -162,12 +164,13 @@ public class BuildParameters
 
     private static bool IsBuildTagged(BuildSystem buildSystem)
     {
-        return !string.IsNullOrWhiteSpace(buildSystem.TravisCI.Environment.Build.Tag);
+        return (buildSystem.IsRunningOnAppVeyor && buildSystem.AppVeyor.Environment.Repository.Tag.IsTag) ||
+				(buildSystem.IsRunningOnTravisCI && !string.IsNullOrWhiteSpace(buildSystem.TravisCI.Environment.Build.Tag));
     }
 
     private static bool IsReleasing(string target)
     {
-        var targets = new [] { "Publish", "Publish-NuGet", "Publish-Chocolatey", "Publish-HomeBrew", "Publish-GitHub-Release", "Release" };
+        var targets = new [] { "Publish", "Publish-NuGet", "Publish-Chocolatey", "Publish-HomeBrew", "Publish-GitHub-Release" };
         return targets.Any(t => StringComparer.OrdinalIgnoreCase.Equals(t, target));
     }
 
