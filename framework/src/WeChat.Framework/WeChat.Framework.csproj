@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
  <Import Project="..\..\..\build\common.props" />
   <PropertyGroup>
@@ -26,6 +26,5 @@
     <PackageReference Include="DotCommon.AutoMapper" Version="3.0.4" />
     <PackageReference Include="DotCommon.Caching" Version="3.0.4" />
     <PackageReference Include="DotCommon.Json4Net" Version="3.0.4" />
-    <PackageReference Include="DotCommon.Log4Net" Version="3.0.4" />
   </ItemGroup>
 </Project>
