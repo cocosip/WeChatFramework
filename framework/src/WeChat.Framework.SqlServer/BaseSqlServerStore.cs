@@ -15,10 +15,10 @@ namespace WeChat.Framework
 
         /// <summary>Ctor
         /// </summary>
-        protected BaseSqlServerStore(WeChatFrameworkSqlServerOption option, ILogger<WeChatLoggerName> logger)
+        protected BaseSqlServerStore(WeChatFrameworkSqlServerOption option, ILoggerFactory loggerFactory)
         {
             Option = option;
-            Logger = logger;
+            Logger = loggerFactory.CreateLogger(WeChatSettings.LoggerName);
         }
 
         /// <summary>获取连接

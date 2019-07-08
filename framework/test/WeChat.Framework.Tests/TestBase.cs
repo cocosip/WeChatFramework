@@ -1,8 +1,6 @@
 using DotCommon.Caching;
 using DotCommon.DependencyInjection;
 using DotCommon.Json4Net;
-using DotCommon.Log4Net;
-using DotCommon.Serializing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -18,7 +16,7 @@ namespace WeChat.Framework.Tests
             IServiceCollection services = new ServiceCollection();
             services.AddLogging(c =>
                 {
-                    c.AddLog4Net();
+                   // c.AddLog4Net();
                 })
                 .AddDotCommon()
                 .AddGenericsMemoryCache()

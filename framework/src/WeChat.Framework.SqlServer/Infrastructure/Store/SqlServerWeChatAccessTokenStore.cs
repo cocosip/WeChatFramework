@@ -17,7 +17,7 @@ namespace WeChat.Framework.Infrastructure.Store
 
         /// <summary>Ctor
         /// </summary>
-        public SqlServerWeChatAccessTokenStore(WeChatFrameworkSqlServerOption option, ILogger<WeChatLoggerName> logger) : base(option, logger)
+        public SqlServerWeChatAccessTokenStore(WeChatFrameworkSqlServerOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
         {
             _tableName = option.AccessTokenTableName;
         }

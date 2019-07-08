@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Abp" Version="4.6.0" />
+    <PackageReference Include="Abp" Version="4.7.0" />
   </ItemGroup>
 
 

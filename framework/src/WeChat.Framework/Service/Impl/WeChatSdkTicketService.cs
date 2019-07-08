@@ -17,7 +17,7 @@ namespace WeChat.Framework.Service
 
         /// <summary>Ctor
         /// </summary>
-        public WeChatSdkTicketService(IServiceProvider provider, ILogger<WeChatLoggerName> logger, IWeChatSdkTicketStore weChatSdkTicketStore, IWeChatAccessTokenService weChatAccessTokenService) : base(provider, logger)
+        public WeChatSdkTicketService(IServiceProvider provider, ILoggerFactory loggerFactory, IWeChatSdkTicketStore weChatSdkTicketStore, IWeChatAccessTokenService weChatAccessTokenService) : base(provider, loggerFactory)
         {
             _weChatSdkTicketStore = weChatSdkTicketStore;
             _weChatAccessTokenService = weChatAccessTokenService;

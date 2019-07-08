@@ -28,10 +28,11 @@ namespace WeChat.Framework.Service
 
         /// <summary>Ctor
         /// </summary>
-        protected WeChatFrameServiceBase(IServiceProvider provider, ILogger<WeChatLoggerName> logger)
+        protected WeChatFrameServiceBase(IServiceProvider provider, ILoggerFactory loggerFactory)
         {
             Provider = provider;
-            Logger = logger;
+            Logger = loggerFactory.CreateLogger(WeChatSettings.LoggerName);
+
 
             //其他
             JsonResponseParser = Provider.GetService<IJsonResponseParser>();

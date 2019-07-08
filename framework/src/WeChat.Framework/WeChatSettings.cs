@@ -4,6 +4,9 @@ namespace WeChat.Framework
     /// </summary>
     public static class WeChatSettings
     {
+        /// <summary>日志名称
+        /// </summary>
+        public const string LoggerName = "WeChatFrameworkLogger";
 
         /// <summary>微信SdkTicket类型
         /// </summary>

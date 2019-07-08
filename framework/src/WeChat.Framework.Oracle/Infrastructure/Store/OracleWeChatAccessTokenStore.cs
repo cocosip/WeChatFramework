@@ -17,7 +17,7 @@ namespace WeChat.Framework.Infrastructure.Store
 
         /// <summary>Ctor
         /// </summary>
-        public OracleWeChatAccessTokenStore(WeChatFrameworkOracleOption option, ILogger<WeChatLoggerName> logger) : base(option, logger)
+        public OracleWeChatAccessTokenStore(WeChatFrameworkOracleOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
         {
             _tableName = option.AccessTokenTableName;
         }
@@ -29,7 +29,7 @@ namespace WeChat.Framework.Infrastructure.Store
         {
             try
             {
-                using(var connection = GetConnection())
+                using (var connection = GetConnection())
                 {
                     var sql = $"SELECT TOP 1 * FROM {_tableName} WHERE \"AppId\"=:AppId";
                     return await connection.QueryFirstOrDefaultAsync<AccessTokenModel>(sql, new { AppId = appId });
@@ -49,7 +49,7 @@ namespace WeChat.Framework.Infrastructure.Store
         {
             try
             {
-                using(var connection = GetConnection())
+                using (var connection = GetConnection())
                 {
                     //先查询AccessToken,是否存在
                     var queryAccessToken = await GetAccessTokenAsync(accessToken.AppId);

@@ -16,10 +16,10 @@ namespace WeChat.Framework
 
         /// <summary>Ctor
         /// </summary>
-        protected BaseOracleStore(WeChatFrameworkOracleOption option, ILogger<WeChatLoggerName> logger)
+        protected BaseOracleStore(WeChatFrameworkOracleOption option, ILoggerFactory loggerFactory)
         {
             Option = option;
-            Logger = logger;
+            Logger = loggerFactory.CreateLogger(WeChatSettings.LoggerName);
         }
 
         /// <summary>获取连接
