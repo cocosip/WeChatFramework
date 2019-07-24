@@ -9,6 +9,7 @@ namespace WeChat.Framework
         /// <summary>SqlServer配置信息
         /// </summary>
         protected WeChatFrameworkSqlServerOption Option { get; set; }
+
         /// <summary>Logger
         /// </summary>
         protected ILogger Logger { get; set; }

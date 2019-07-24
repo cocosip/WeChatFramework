@@ -1,5 +1,5 @@
 using Abp.Domain.Repositories;
-using DotCommon.AutoMapper;
+using DotCommon.ObjectMapping;
 using System.Threading.Tasks;
 using WeChat.Framework.Model;
 
@@ -10,13 +10,15 @@ namespace WeChat.Framework.Infrastructure.Store
     /// </summary>
     public class AbpWeChatSdkTicketStore : IWeChatSdkTicketStore
     {
+        private readonly IObjectMapper _objectMapper;
         private readonly IRepository<AbpSdkTicket> _abpSdkTicketRepository;
 
         /// <summary>Ctor
         /// </summary>
-        public AbpWeChatSdkTicketStore(IRepository<AbpSdkTicket> abpSdkTicketRepository)
+        public AbpWeChatSdkTicketStore(IObjectMapper objectMapper, IRepository<AbpSdkTicket> abpSdkTicketRepository)
         {
             _abpSdkTicketRepository = abpSdkTicketRepository;
+            _objectMapper = objectMapper;
         }
 
 
@@ -28,7 +30,7 @@ namespace WeChat.Framework.Infrastructure.Store
         public async Task<SdkTicketModel> GetSdkTicketAsync(string appId, string ticketType)
         {
             var abpSdkTicket = await _abpSdkTicketRepository.FirstOrDefaultAsync(x => x.AppId == appId && x.TicketType == ticketType);
-            return abpSdkTicket.MapTo<SdkTicketModel>();
+            return _objectMapper.Map<SdkTicketModel>(abpSdkTicket);
         }
 
 
@@ -39,7 +41,7 @@ namespace WeChat.Framework.Infrastructure.Store
             var abpSdkTicket = await _abpSdkTicketRepository.FirstOrDefaultAsync(x => x.AppId == sdkTicket.AppId && x.TicketType == sdkTicket.TicketType);
             if (abpSdkTicket == null)
             {
-                abpSdkTicket = sdkTicket.MapTo<AbpSdkTicket>();
+                abpSdkTicket = _objectMapper.Map<AbpSdkTicket>(sdkTicket);
                 await _abpSdkTicketRepository.InsertAsync(abpSdkTicket);
             }
             else

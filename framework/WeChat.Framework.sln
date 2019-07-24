@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D269783C-FB9E-41C2-9AFF-ACA35B1C8CD4}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeChat.Framework.Abp", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeChat.Framework.SqlServer", "src\WeChat.Framework.SqlServer\WeChat.Framework.SqlServer.csproj", "{2A87F805-943C-4F05-9DBD-8A3995BB8AFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChat.Framework.Oracle", "src\WeChat.Framework.Oracle\WeChat.Framework.Oracle.csproj", "{E49AC6F0-7C65-466C-BB0E-002B2E0B792C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeChat.Framework.Oracle", "src\WeChat.Framework.Oracle\WeChat.Framework.Oracle.csproj", "{E49AC6F0-7C65-466C-BB0E-002B2E0B792C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

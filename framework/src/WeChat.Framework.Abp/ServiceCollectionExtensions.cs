@@ -1,3 +1,4 @@
+using DotCommon.AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using WeChat.Framework.Infrastructure.Store;
 
@@ -11,8 +12,10 @@ namespace WeChat.Framework
         /// </summary>
         public static IServiceCollection AddWeChatFrameworkAbp(this IServiceCollection services)
         {
-            services.AddTransient<IWeChatAccessTokenStore, AbpWeChatAccessTokenStore>();
-            services.AddTransient<IWeChatSdkTicketStore, AbpWeChatSdkTicketStore>();
+            services
+                .AddTransient<IWeChatAccessTokenStore, AbpWeChatAccessTokenStore>()
+                .AddTransient<IWeChatSdkTicketStore, AbpWeChatSdkTicketStore>()
+                .AddAssemblyAutoMaps(typeof(AbpWeChatAccessTokenStore).Assembly);
             return services;
         }
     }
