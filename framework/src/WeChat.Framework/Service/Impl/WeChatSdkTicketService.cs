@@ -1,6 +1,6 @@
 using DotCommon.Extensions;
-using DotCommon.Http;
 using Microsoft.Extensions.Logging;
+using RestSharp;
 using System;
 using System.Threading.Tasks;
 using WeChat.Framework.Infrastructure.Store;
@@ -69,10 +69,13 @@ namespace WeChat.Framework.Service
                 Logger.LogError("微信获取SdkTicket时,查询到的AccessToken为空");
             }
             var ticketType = type.ToUpper();
-            IHttpRequest request = new HttpRequest(WeChatSettings.WeChatUrls.SdkTicketUrl, Method.GET)
+
+            IRestRequest request = new RestRequest(WeChatSettings.WeChatUrls.SdkTicketResource, Method.GET);
+            request
                 .AddParameter("access_token", accessToken)
                 .AddParameter("type", type);
-            var response = await Client.ExecuteAsync(request);
+            var response = await Client.ExecuteTaskAsync(request);
+
             Logger.LogDebug(ParseLog(appId, "GetRemoteSdkTicketAsync", $"获取应用SdkTicket,类型:{type},返回结果:{response.Content}"));
             var sdkTicket = JsonResponseParser.ParseResponse<SdkTicket>(response.Content);
             //设置SdkTicket类型

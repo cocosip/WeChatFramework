@@ -25,13 +25,17 @@ namespace WeChat.Framework
         /// </summary>
         public static class WeChatUrls
         {
-            /// <summary>获取AccessTokenUrl地址
+            /// <summary>基础Url地址
             /// </summary>
-            public const string AccessTokenUrl = "https://api.weixin.qq.com/cgi-bin/token";
+            public const string BaseUrl = "https://api.weixin.qq.com";
 
-            /// <summary>获取SdkTicketUrl地址
+            /// <summary>获取AccessToken的地址片段
             /// </summary>
-            public const string SdkTicketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
+            public const string AccessTokenResource = "/cgi-bin/token";
+
+            /// <summary>获取SdkTicketUrl地址片段
+            /// </summary>
+            public const string SdkTicketResource = "/cgi-bin/ticket/getticket";
         }
     }
 }
