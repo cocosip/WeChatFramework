@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\..\build\common.props" />
   <PropertyGroup>
@@ -6,7 +6,7 @@
     <AssemblyName>WeChat.Framework.SqlServer</AssemblyName>
     <PackageId>WeChat.Framework.SqlServer</PackageId>
     <RootNamespace>WeChat.Framework</RootNamespace>
-    <Description>WeChat.Framework.SqlServer微信基础库SqlServer存储</Description>
+    <Description>WeChat.Framework微信基础库,SqlServer数据库存储扩展</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

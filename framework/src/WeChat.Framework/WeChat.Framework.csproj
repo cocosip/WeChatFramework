@@ -5,7 +5,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>WeChat.Framework</AssemblyName>
     <PackageId>WeChat.Framework</PackageId>
-    <Description>WeChat.Framework微信基础库</Description>
+    <Description>WeChat.Framework微信基础库(针对AccessToken,SdkTicket等的存储管理)</Description>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

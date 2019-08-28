@@ -6,7 +6,7 @@
     <AssemblyName>WeChat.Framework.Oracle</AssemblyName>
     <PackageId>WeChat.Framework.Oracle</PackageId>
     <RootNamespace>WeChat.Framework</RootNamespace>
-    <Description>WeChat.Framework.Oracle微信基础库Oracle存储</Description>
+    <Description>WeChat.Framework微信基础库,Oracle数据库存储扩展</Description>
   </PropertyGroup>
 
 
