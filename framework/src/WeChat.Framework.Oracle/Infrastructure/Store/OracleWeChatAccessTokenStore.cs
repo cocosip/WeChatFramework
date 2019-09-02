@@ -1,7 +1,7 @@
 using Dapper;
 using DotCommon.Extensions;
 using Microsoft.Extensions.Logging;
-using System.Data.SqlClient;
+using Oracle.ManagedDataAccess.Client;
 using System.Threading.Tasks;
 using WeChat.Framework.Model;
 
@@ -35,7 +35,7 @@ namespace WeChat.Framework.Infrastructure.Store
                     return await connection.QueryFirstOrDefaultAsync<AccessTokenModel>(sql, new { AppId = appId });
                 }
             }
-            catch (SqlException ex)
+            catch (OracleException ex)
             {
                 Logger.LogError("查询微信应用AccessToken出错,AppId:{0},Ex:{1}", appId, ex.Message);
                 throw;
@@ -69,7 +69,7 @@ namespace WeChat.Framework.Infrastructure.Store
 
                 }
             }
-            catch (SqlException ex)
+            catch (OracleException ex)
             {
                 Logger.LogError("创建或者修改微信AccessToken出错,AppId:{0},Ex:{1}", accessToken.AppId, ex.Message);
                 throw;
