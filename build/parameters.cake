@@ -142,9 +142,11 @@ public class BuildParameters
         context.Information($"IsRunningOnAppVeyor:{parameters.IsRunningOnAppVeyor}");
         context.Information($"IsPullRequest:{parameters.IsPullRequest}");
         context.Information($"IsMasterBranch:{parameters.IsMasterBranch}");
+        context.Information($"IsRunningOnAzurePipelines:{parameters.IsRunningOnAzurePipelines}");
         context.Information($"IsTagged:{parameters.IsTagged}");
         context.Information($"ShouldPublish:{parameters.ShouldPublish}");
         context.Information($"ShouldPublishToNuGet:{parameters.ShouldPublishToNuGet}");
+        context.Information($"SourceBranch:{buildSystem.TFBuild.Environment.Repository.SourceBranch}");
         context.Information($"Cake BuildParameters:---------------end---------------");
         return parameters;
     }
