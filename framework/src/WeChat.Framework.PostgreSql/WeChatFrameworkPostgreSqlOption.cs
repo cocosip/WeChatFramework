@@ -1,8 +1,8 @@
 namespace WeChat.Framework
 {
-    /// <summary>Oracle配置信息
+    /// <summary>PostgreSql配置信息
     /// </summary>
-    public class WeChatFrameworkOracleOption
+    public class WeChatFrameworkPostgreSqlOption
     {
         /// <summary>数据库连接字符串
         /// </summary>

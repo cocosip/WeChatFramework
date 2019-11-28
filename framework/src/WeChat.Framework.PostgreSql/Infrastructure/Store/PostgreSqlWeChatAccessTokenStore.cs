@@ -1,15 +1,15 @@
 using Dapper;
 using DotCommon.Extensions;
 using Microsoft.Extensions.Logging;
-using Oracle.ManagedDataAccess.Client;
 using System.Threading.Tasks;
 using WeChat.Framework.Model;
+using Npgsql;
 
 namespace WeChat.Framework.Infrastructure.Store
 {
-    /// <summary>Oracle微信应用AccessToken存储
+    /// <summary>PostgreSql微信应用AccessToken存储
     /// </summary>
-    public class OracleWeChatAccessTokenStore : BaseOracleStore, IWeChatAccessTokenStore
+    public class PostgreSqlWeChatAccessTokenStore : BasePostgreSqlStore, IWeChatAccessTokenStore
     {
         /// <summary>表名称
         /// </summary>
@@ -17,7 +17,7 @@ namespace WeChat.Framework.Infrastructure.Store
 
         /// <summary>Ctor
         /// </summary>
-        public OracleWeChatAccessTokenStore(WeChatFrameworkOracleOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
+        public PostgreSqlWeChatAccessTokenStore(WeChatFrameworkPostgreSqlOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
         {
             _tableName = option.AccessTokenTableName;
         }
@@ -35,7 +35,7 @@ namespace WeChat.Framework.Infrastructure.Store
                     return await connection.QueryFirstOrDefaultAsync<AccessTokenModel>(sql, new { AppId = appId });
                 }
             }
-            catch (OracleException ex)
+            catch (NpgsqlException ex)
             {
                 Logger.LogError("查询微信应用AccessToken出错,AppId:{0},Ex:{1}", appId, ex.Message);
                 throw;
@@ -69,7 +69,7 @@ namespace WeChat.Framework.Infrastructure.Store
 
                 }
             }
-            catch (OracleException ex)
+            catch (NpgsqlException ex)
             {
                 Logger.LogError("创建或者修改微信AccessToken出错,AppId:{0},Ex:{1}", accessToken.AppId, ex.Message);
                 throw;

@@ -1,24 +1,25 @@
 using Dapper;
 using DotCommon.Extensions;
 using Microsoft.Extensions.Logging;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 using WeChat.Framework.Model;
 
 namespace WeChat.Framework.Infrastructure.Store
 {
-    /// <summary>SqlServer微信Sdk-Ticket存储
+    /// <summary>MySql微信Sdk-Ticket存储
     /// </summary>
-    public class SqlServerWeChatSdkTicketStore : BaseSqlServerStore, IWeChatSdkTicketStore
+    public class MySqlWeChatSdkTicketStore : BaseMySqlStore, IWeChatSdkTicketStore
     {
         private readonly string _tableName;
 
         /// <summary>Ctor
         /// </summary>
-        public SqlServerWeChatSdkTicketStore(WeChatFrameworkSqlServerOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
+        public MySqlWeChatSdkTicketStore(WeChatFrameworkMySqlOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
         {
             _tableName = option.SdkTicketTableName;
         }
+
 
         /// <summary>根据应用Id,ticket类型获取Sdk-Ticket
         /// </summary>
@@ -31,11 +32,11 @@ namespace WeChat.Framework.Infrastructure.Store
             {
                 using (var connection = GetConnection())
                 {
-                    var sql = $"SELECT TOP 1 * FROM [{_tableName}] WHERE [AppId]=@AppId AND [TicketType]=@TicketType";
+                    var sql = $"SELECT TOP 1 * FROM `{_tableName}` WHERE `AppId`=@AppId AND `TicketType`=@TicketType";
                     return await connection.QueryFirstOrDefaultAsync<SdkTicketModel>(sql, new { AppId = appId, TicketType = ticketType });
                 }
             }
-            catch (SqlException ex)
+            catch (MySqlException ex)
             {
                 Logger.LogError("查询微信应用SdkTicket出错,AppId:{0},TicketType:{1},Ex:{2}", appId, ticketType, ex.Message);
                 throw;
@@ -57,18 +58,18 @@ namespace WeChat.Framework.Infrastructure.Store
                     if (querySdkTicket == null || querySdkTicket.AppId.IsNullOrWhiteSpace())
                     {
                         //创建
-                        sql = $"INSERT INTO [{_tableName}] ([AppId],[Ticket],[ExpiredIn],[LastModifiedTime],[TicketType]) VALUES (@AppId,@Ticket,@ExpiredIn,@LastModifiedTime,@TicketType)";
+                        sql = $"INSERT INTO `{_tableName}` (`AppId`,`Ticket`,`ExpiredIn`,`LastModifiedTime`,`TicketType`) VALUES (@AppId,@Ticket,@ExpiredIn,@LastModifiedTime,@TicketType)";
                     }
                     else
                     {
                         //修改
-                        sql = $"UPDATE [{_tableName}] SET [Ticket]=@Ticket,[ExpiredIn]=@ExpiredIn,[LastModifiedTime]=@LastModifiedTime WHERE [AppId]=@AppId AND [TicketType]=@TicketType";
+                        sql = $"UPDATE `{_tableName}` SET `Ticket`=@Ticket,`ExpiredIn`=@ExpiredIn,`LastModifiedTime`=@LastModifiedTime WHERE `AppId`=@AppId AND `TicketType`=@TicketType";
                     }
                     await connection.ExecuteAsync(sql, sdkTicket);
 
                 }
             }
-            catch (SqlException ex)
+            catch (MySqlException ex)
             {
                 Logger.LogError("创建或者修改微信SdkTicket出错,AppId:{0},TicketType:{1},Ex:{2}", sdkTicket.AppId, sdkTicket.TicketType, ex.Message);
                 throw;

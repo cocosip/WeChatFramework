@@ -1,22 +1,22 @@
 using Microsoft.Extensions.Logging;
-using Oracle.ManagedDataAccess.Client;
+using Npgsql;
 
 namespace WeChat.Framework
 {
     /// <summary>基础抽象存储
     /// </summary>
-    public abstract class BaseOracleStore
+    public abstract class BasePostgreSqlStore
     {
-        /// <summary>Oracle配置信息
+        /// <summary>PostgreSql配置信息
         /// </summary>
-        protected WeChatFrameworkOracleOption Option { get; set; }
+        protected WeChatFrameworkPostgreSqlOption Option { get; set; }
         /// <summary>Logger
         /// </summary>
         protected ILogger Logger { get; set; }
 
         /// <summary>Ctor
         /// </summary>
-        protected BaseOracleStore(WeChatFrameworkOracleOption option, ILoggerFactory loggerFactory)
+        protected BasePostgreSqlStore(WeChatFrameworkPostgreSqlOption option, ILoggerFactory loggerFactory)
         {
             Option = option;
             Logger = loggerFactory.CreateLogger(WeChatSettings.LoggerName);
@@ -24,9 +24,9 @@ namespace WeChat.Framework
 
         /// <summary>获取连接
         /// </summary>
-        protected OracleConnection GetConnection()
+        protected NpgsqlConnection GetConnection()
         {
-            return new OracleConnection(Option.DbConnectionString);
+            return new NpgsqlConnection(Option.DbConnectionString);
         }
 
     }

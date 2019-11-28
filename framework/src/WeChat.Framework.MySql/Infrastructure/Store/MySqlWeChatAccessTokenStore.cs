@@ -1,15 +1,15 @@
 using Dapper;
 using DotCommon.Extensions;
 using Microsoft.Extensions.Logging;
-using Oracle.ManagedDataAccess.Client;
+using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 using WeChat.Framework.Model;
 
 namespace WeChat.Framework.Infrastructure.Store
 {
-    /// <summary>Oracle微信应用AccessToken存储
+    /// <summary>MySql微信应用AccessToken存储
     /// </summary>
-    public class OracleWeChatAccessTokenStore : BaseOracleStore, IWeChatAccessTokenStore
+    public class MySqlWeChatAccessTokenStore : BaseMySqlStore, IWeChatAccessTokenStore
     {
         /// <summary>表名称
         /// </summary>
@@ -17,7 +17,7 @@ namespace WeChat.Framework.Infrastructure.Store
 
         /// <summary>Ctor
         /// </summary>
-        public OracleWeChatAccessTokenStore(WeChatFrameworkOracleOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
+        public MySqlWeChatAccessTokenStore(WeChatFrameworkMySqlOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
         {
             _tableName = option.AccessTokenTableName;
         }
@@ -29,13 +29,13 @@ namespace WeChat.Framework.Infrastructure.Store
         {
             try
             {
-                using (var connection = GetConnection())
+                using(var connection = GetConnection())
                 {
-                    var sql = $"SELECT TOP 1 * FROM [{_tableName}] WHERE \"AppId\"=:AppId";
+                    var sql = $"SELECT TOP 1 * FROM `{_tableName}` WHERE `AppId`=@AppId";
                     return await connection.QueryFirstOrDefaultAsync<AccessTokenModel>(sql, new { AppId = appId });
                 }
             }
-            catch (OracleException ex)
+            catch (MySqlException ex)
             {
                 Logger.LogError("查询微信应用AccessToken出错,AppId:{0},Ex:{1}", appId, ex.Message);
                 throw;
@@ -49,7 +49,7 @@ namespace WeChat.Framework.Infrastructure.Store
         {
             try
             {
-                using (var connection = GetConnection())
+                using(var connection = GetConnection())
                 {
                     //先查询AccessToken,是否存在
                     var queryAccessToken = await GetAccessTokenAsync(accessToken.AppId);
@@ -58,18 +58,18 @@ namespace WeChat.Framework.Infrastructure.Store
                     if (queryAccessToken == null || queryAccessToken.AppId.IsNullOrWhiteSpace())
                     {
                         //创建
-                        sql = $"INSERT INTO [{_tableName}] (\"AppId\",\"Token\",\"ExpiredIn\",\"LastModifiedTime\") VALUES (:AppId,:Token,:ExpiredIn,:LastModifiedTime)";
+                        sql = $"INSERT INTO `{_tableName}` (`AppId`,`Token`,`ExpiredIn`,`LastModifiedTime`) VALUES (@AppId,@Token,@ExpiredIn,@LastModifiedTime)";
                     }
                     else
                     {
                         //修改
-                        sql = $"UPDATE [{_tableName}] SET \"Token\"=:Token,\"ExpiredIn\"=:ExpiredIn,\"LastModifiedTime\"=:LastModifiedTime WHERE \"AppId\"=:AppId";
+                        sql = $"UPDATE `{_tableName}` SET `Token`=@Token,`ExpiredIn`=@ExpiredIn,`LastModifiedTime`=@LastModifiedTime WHERE `AppId`=@AppId";
                     }
                     await connection.ExecuteAsync(sql, accessToken);
 
                 }
             }
-            catch (OracleException ex)
+            catch (MySqlException ex)
             {
                 Logger.LogError("创建或者修改微信AccessToken出错,AppId:{0},Ex:{1}", accessToken.AppId, ex.Message);
                 throw;

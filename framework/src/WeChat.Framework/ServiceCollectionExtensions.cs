@@ -1,4 +1,3 @@
-using DotCommon.AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using WeChat.Framework.Infrastructure.Store;
 using WeChat.Framework.Parser;

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using System.Data.SqlClient;
+
 namespace WeChat.Framework
 {
     /// <summary>基础抽象存储
