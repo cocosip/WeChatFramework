@@ -17,7 +17,7 @@ namespace WeChat.Framework.Infrastructure.Store
 
         /// <summary>Ctor
         /// </summary>
-        public MySqlWeChatAccessTokenStore(WeChatFrameworkMySqlOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
+        public MySqlWeChatAccessTokenStore(WeChatFrameworkMySqlOption option, ILogger<BaseMySqlStore> logger) : base(option, logger)
         {
             _tableName = option.AccessTokenTableName;
         }

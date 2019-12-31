@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using WeChat.Framework.Infrastructure.Store;
 using WeChat.Framework.Model;
+
 namespace WeChat.Framework.Service
 {
 
@@ -17,7 +18,7 @@ namespace WeChat.Framework.Service
 
         /// <summary>Ctor
         /// </summary>
-        public WeChatSdkTicketService(IServiceProvider provider, ILoggerFactory loggerFactory, IWeChatSdkTicketStore weChatSdkTicketStore, IWeChatAccessTokenService weChatAccessTokenService) : base(provider, loggerFactory)
+        public WeChatSdkTicketService(IServiceProvider provider, ILogger<WeChatFrameServiceBase> logger, IWeChatSdkTicketStore weChatSdkTicketStore, IWeChatAccessTokenService weChatAccessTokenService) : base(provider, logger)
         {
             _weChatSdkTicketStore = weChatSdkTicketStore;
             _weChatAccessTokenService = weChatAccessTokenService;

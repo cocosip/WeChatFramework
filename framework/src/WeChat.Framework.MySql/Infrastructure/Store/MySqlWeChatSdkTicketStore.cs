@@ -15,7 +15,7 @@ namespace WeChat.Framework.Infrastructure.Store
 
         /// <summary>Ctor
         /// </summary>
-        public MySqlWeChatSdkTicketStore(WeChatFrameworkMySqlOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
+        public MySqlWeChatSdkTicketStore(WeChatFrameworkMySqlOption option, ILogger<BaseMySqlStore> logger) : base(option, logger)
         {
             _tableName = option.SdkTicketTableName;
         }

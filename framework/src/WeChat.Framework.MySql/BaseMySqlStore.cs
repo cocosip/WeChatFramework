@@ -17,10 +17,10 @@ namespace WeChat.Framework
 
         /// <summary>Ctor
         /// </summary>
-        protected BaseMySqlStore(WeChatFrameworkMySqlOption option, ILoggerFactory loggerFactory)
+        protected BaseMySqlStore(WeChatFrameworkMySqlOption option, ILogger<BaseMySqlStore> logger)
         {
             Option = option;
-            Logger = loggerFactory.CreateLogger(WeChatSettings.LoggerName);
+            Logger = logger;
         }
 
         /// <summary>获取连接

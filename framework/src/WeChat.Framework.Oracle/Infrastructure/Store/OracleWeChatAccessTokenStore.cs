@@ -17,7 +17,7 @@ namespace WeChat.Framework.Infrastructure.Store
 
         /// <summary>Ctor
         /// </summary>
-        public OracleWeChatAccessTokenStore(WeChatFrameworkOracleOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
+        public OracleWeChatAccessTokenStore(WeChatFrameworkOracleOption option, ILogger<BaseOracleStore> logger) : base(option, logger)
         {
             _tableName = option.AccessTokenTableName;
         }

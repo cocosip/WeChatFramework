@@ -13,9 +13,9 @@ namespace WeChat.Framework.Parser
 
         /// <summary>Ctor
         /// </summary>
-        public JsonResponseParser(ILoggerFactory loggerFactory, IJsonSerializer jsonSerializer)
+        public JsonResponseParser(ILogger<JsonResponseParser> logger, IJsonSerializer jsonSerializer)
         {
-            _logger = loggerFactory.CreateLogger(WeChatSettings.LoggerName);
+            _logger = logger;
             _jsonSerializer = jsonSerializer;
         }
 

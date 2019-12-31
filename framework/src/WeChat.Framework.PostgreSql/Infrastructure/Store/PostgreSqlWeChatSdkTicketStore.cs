@@ -15,7 +15,7 @@ namespace WeChat.Framework.Infrastructure.Store
 
         /// <summary>Ctor
         /// </summary>
-        public PostgreSqlWeChatSdkTicketStore(WeChatFrameworkPostgreSqlOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
+        public PostgreSqlWeChatSdkTicketStore(WeChatFrameworkPostgreSqlOption option, ILogger<BasePostgreSqlStore> logger) : base(option, logger)
         {
             _tableName = option.SdkTicketTableName;
         }

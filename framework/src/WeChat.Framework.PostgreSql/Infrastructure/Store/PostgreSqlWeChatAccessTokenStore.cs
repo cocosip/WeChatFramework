@@ -1,9 +1,9 @@
 using Dapper;
 using DotCommon.Extensions;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 using System.Threading.Tasks;
 using WeChat.Framework.Model;
-using Npgsql;
 
 namespace WeChat.Framework.Infrastructure.Store
 {
@@ -17,7 +17,7 @@ namespace WeChat.Framework.Infrastructure.Store
 
         /// <summary>Ctor
         /// </summary>
-        public PostgreSqlWeChatAccessTokenStore(WeChatFrameworkPostgreSqlOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
+        public PostgreSqlWeChatAccessTokenStore(WeChatFrameworkPostgreSqlOption option, ILogger<BasePostgreSqlStore> logger) : base(option, logger)
         {
             _tableName = option.AccessTokenTableName;
         }

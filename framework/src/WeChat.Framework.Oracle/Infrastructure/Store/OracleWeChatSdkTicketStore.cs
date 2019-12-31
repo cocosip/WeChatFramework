@@ -15,7 +15,7 @@ namespace WeChat.Framework.Infrastructure.Store
 
         /// <summary>Ctor
         /// </summary>
-        public OracleWeChatSdkTicketStore(WeChatFrameworkOracleOption option, ILoggerFactory loggerFactory) : base(option, loggerFactory)
+        public OracleWeChatSdkTicketStore(WeChatFrameworkOracleOption option, ILogger<BaseOracleStore> logger) : base(option, logger)
         {
             _tableName = option.SdkTicketTableName;
         }

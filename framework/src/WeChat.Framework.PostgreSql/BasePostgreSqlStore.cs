@@ -10,16 +10,17 @@ namespace WeChat.Framework
         /// <summary>PostgreSql配置信息
         /// </summary>
         protected WeChatFrameworkPostgreSqlOption Option { get; set; }
+
         /// <summary>Logger
         /// </summary>
         protected ILogger Logger { get; set; }
 
         /// <summary>Ctor
         /// </summary>
-        protected BasePostgreSqlStore(WeChatFrameworkPostgreSqlOption option, ILoggerFactory loggerFactory)
+        protected BasePostgreSqlStore(WeChatFrameworkPostgreSqlOption option, ILogger<BasePostgreSqlStore> logger)
         {
             Option = option;
-            Logger = loggerFactory.CreateLogger(WeChatSettings.LoggerName);
+            Logger = logger;
         }
 
         /// <summary>获取连接
