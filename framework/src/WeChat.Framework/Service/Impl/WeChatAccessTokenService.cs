@@ -43,7 +43,7 @@ namespace WeChat.Framework.Service
                 AppId = appId,
                 Token = accessToken.Token,
                 ExpiredIn = accessToken.ExpiresIn,
-                LastModifiedTime = DateTime.Now
+                UpdateTime = DateTime.Now
             };
             //更新存储中的AccessToken
             await _weChatAccessTokenStore.CreateOrUpdateAccessTokenAsync(accessTokenModel);

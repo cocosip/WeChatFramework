@@ -30,5 +30,20 @@ namespace WeChat.Framework
             return new NpgsqlConnection(Option.DbConnectionString);
         }
 
+        /// <summary>GetSchemaAccessTokenTableName
+        /// </summary>
+        protected string GetSchemaAccessTokenTableName()
+        {
+            return $@"""{Option.Schema}"".""{Option.AccessTokenTableName}""";
+        }
+
+
+        /// <summary>GetSchemaSdkTicketTableName
+        /// </summary>
+        protected string GetSchemaSdkTicketTableName()
+        {
+            return $@"""{Option.Schema}"".""{Option.SdkTicketTableName}""";
+        }
+
     }
 }

@@ -29,8 +29,4 @@
   <ItemGroup>
     <ProjectReference Include="..\WeChat.Framework\WeChat.Framework.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Scripts\" />
-  </ItemGroup>
 </Project>

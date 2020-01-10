@@ -22,7 +22,7 @@ namespace WeChat.Framework.Model
 
         /// <summary>最后修改时间
         /// </summary>
-        public DateTime LastModifiedTime { get; set; }
+        public DateTime UpdateTime { get; set; }
 
         /// <summary>临时票据类型
         /// </summary>
@@ -32,7 +32,7 @@ namespace WeChat.Framework.Model
         /// </summary>
         public bool IsExpired(DateTime expiredTime)
         {
-            var totalSeconds = (expiredTime - LastModifiedTime).TotalSeconds;
+            var totalSeconds = (expiredTime - UpdateTime).TotalSeconds;
             if (totalSeconds > ExpiredIn)
             {
                 return true;
@@ -44,7 +44,7 @@ namespace WeChat.Framework.Model
         /// </summary>
         public override string ToString()
         {
-            return $"[AppId:{AppId},Ticket:{Ticket},ExpiredIn:{ExpiredIn},LastModifiedTime:{LastModifiedTime.ToString("yyyy-MM-dd HH:mm:ss")}]";
+            return $"[AppId:{AppId},Ticket:{Ticket},ExpiredIn:{ExpiredIn},UpdateTime:{UpdateTime.ToString("yyyy-MM-dd HH:mm:ss")}]";
         }
     }
 }

@@ -11,15 +11,11 @@ namespace WeChat.Framework.Infrastructure.Store
     /// </summary>
     public class MySqlWeChatAccessTokenStore : BaseMySqlStore, IWeChatAccessTokenStore
     {
-        /// <summary>表名称
-        /// </summary>
-        private readonly string _tableName;
 
         /// <summary>Ctor
         /// </summary>
         public MySqlWeChatAccessTokenStore(WeChatFrameworkMySqlOption option, ILogger<BaseMySqlStore> logger) : base(option, logger)
         {
-            _tableName = option.AccessTokenTableName;
         }
 
 
@@ -31,7 +27,7 @@ namespace WeChat.Framework.Infrastructure.Store
             {
                 using(var connection = GetConnection())
                 {
-                    var sql = $"SELECT TOP 1 * FROM `{_tableName}` WHERE `AppId`=@AppId";
+                    var sql = $"SELECT TOP 1 * FROM {GetSchemaAccessTokenTableName()} WHERE `AppId`=?AppId";
                     return await connection.QueryFirstOrDefaultAsync<AccessTokenModel>(sql, new { AppId = appId });
                 }
             }
@@ -58,12 +54,12 @@ namespace WeChat.Framework.Infrastructure.Store
                     if (queryAccessToken == null || queryAccessToken.AppId.IsNullOrWhiteSpace())
                     {
                         //创建
-                        sql = $"INSERT INTO `{_tableName}` (`AppId`,`Token`,`ExpiredIn`,`LastModifiedTime`) VALUES (@AppId,@Token,@ExpiredIn,@LastModifiedTime)";
+                        sql = $"INSERT INTO {GetSchemaAccessTokenTableName()} (`AppId`,`Token`,`ExpiredIn`,`UpdateTime`) VALUES (?AppId,?Token,?ExpiredIn,?UpdateTime)";
                     }
                     else
                     {
                         //修改
-                        sql = $"UPDATE `{_tableName}` SET `Token`=@Token,`ExpiredIn`=@ExpiredIn,`LastModifiedTime`=@LastModifiedTime WHERE `AppId`=@AppId";
+                        sql = $"UPDATE `{GetSchemaAccessTokenTableName()}` SET `Token`=?Token,`ExpiredIn`=?ExpiredIn,`UpdateTime`=?UpdateTime WHERE `AppId`=?AppId";
                     }
                     await connection.ExecuteAsync(sql, accessToken);
 

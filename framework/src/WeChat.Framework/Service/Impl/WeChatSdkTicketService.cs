@@ -46,7 +46,7 @@ namespace WeChat.Framework.Service
                 AppId = appId,
                 Ticket = sdkTicket.Ticket,
                 ExpiredIn = sdkTicket.ExpiresIn,
-                LastModifiedTime = DateTime.Now,
+                UpdateTime = DateTime.Now,
                 TicketType = ticketType
             };
             //更新存储中的Sdk-Ticket

@@ -11,13 +11,12 @@ namespace WeChat.Framework.Infrastructure.Store
     /// </summary>
     public class OracleWeChatSdkTicketStore : BaseOracleStore, IWeChatSdkTicketStore
     {
-        private readonly string _tableName;
 
         /// <summary>Ctor
         /// </summary>
         public OracleWeChatSdkTicketStore(WeChatFrameworkOracleOption option, ILogger<BaseOracleStore> logger) : base(option, logger)
         {
-            _tableName = option.SdkTicketTableName;
+        
         }
 
         /// <summary>根据应用Id,ticket类型获取Sdk-Ticket
@@ -31,7 +30,7 @@ namespace WeChat.Framework.Infrastructure.Store
             {
                 using (var connection = GetConnection())
                 {
-                    var sql = $"SELECT TOP 1 * FROM \"{_tableName}\" WHERE \"AppId\"=:AppId AND \"TicketType\"=:TicketType";
+                    var sql = $@"SELECT TOP 1 * FROM {GetSchemaSdkTicketTableName()} WHERE ""APPID""=:AppId AND ""TICKETTYPE""=:TicketType";
                     return await connection.QueryFirstOrDefaultAsync<SdkTicketModel>(sql, new { AppId = appId, TicketType = ticketType });
                 }
             }
@@ -57,12 +56,12 @@ namespace WeChat.Framework.Infrastructure.Store
                     if (querySdkTicket == null || querySdkTicket.AppId.IsNullOrWhiteSpace())
                     {
                         //创建
-                        sql = $"INSERT INTO \"{_tableName}\" (\"AppId\",\"Ticket\",\"ExpiredIn\",\"LastModifiedTime\",\"TicketType\") VALUES (:AppId,:Ticket,:ExpiredIn,:LastModifiedTime,:TicketType)";
+                        sql = $@"INSERT INTO {GetSchemaSdkTicketTableName()} (""APPID"",""TICKET"",""EXPIRED_IN"",""UPDATE_TIME"",""TicketType"") VALUES (:AppId,:Ticket,:ExpiredIn,:UpdateTime,:TicketType)";
                     }
                     else
                     {
                         //修改
-                        sql = $"UPDATE \"{_tableName}\" SET \"Ticket\"=:Ticket,\"ExpiredIn\"=:ExpiredIn,\"LastModifiedTime\"=:LastModifiedTime WHERE \"AppId\"=:AppId AND \"TicketType\"=:TicketType";
+                        sql = $@"UPDATE {GetSchemaSdkTicketTableName()} SET ""TICKET""=:Ticket,""EXPIRED_IN""=:ExpiredIn,""UPDATE_TIME""=:UpdateTime WHERE ""APPID""=:AppId AND ""TICKET_TYPE""=:TicketType";
                     }
                     await connection.ExecuteAsync(sql, sdkTicket);
 

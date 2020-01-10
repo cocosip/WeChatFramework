@@ -11,13 +11,11 @@ namespace WeChat.Framework.Infrastructure.Store
     /// </summary>
     public class MySqlWeChatSdkTicketStore : BaseMySqlStore, IWeChatSdkTicketStore
     {
-        private readonly string _tableName;
-
         /// <summary>Ctor
         /// </summary>
         public MySqlWeChatSdkTicketStore(WeChatFrameworkMySqlOption option, ILogger<BaseMySqlStore> logger) : base(option, logger)
         {
-            _tableName = option.SdkTicketTableName;
+        
         }
 
 
@@ -32,7 +30,7 @@ namespace WeChat.Framework.Infrastructure.Store
             {
                 using (var connection = GetConnection())
                 {
-                    var sql = $"SELECT TOP 1 * FROM `{_tableName}` WHERE `AppId`=@AppId AND `TicketType`=@TicketType";
+                    var sql = $"SELECT TOP 1 * FROM {GetSchemaSdkTicketTableName()} WHERE `AppId`=@AppId AND `TicketType`=?TicketType";
                     return await connection.QueryFirstOrDefaultAsync<SdkTicketModel>(sql, new { AppId = appId, TicketType = ticketType });
                 }
             }
@@ -58,12 +56,12 @@ namespace WeChat.Framework.Infrastructure.Store
                     if (querySdkTicket == null || querySdkTicket.AppId.IsNullOrWhiteSpace())
                     {
                         //创建
-                        sql = $"INSERT INTO `{_tableName}` (`AppId`,`Ticket`,`ExpiredIn`,`LastModifiedTime`,`TicketType`) VALUES (@AppId,@Ticket,@ExpiredIn,@LastModifiedTime,@TicketType)";
+                        sql = $"INSERT INTO {GetSchemaSdkTicketTableName()} (`AppId`,`Ticket`,`ExpiredIn`,`LastModifiedTime`,`TicketType`) VALUES (?AppId,?Ticket,?ExpiredIn,?LastModifiedTime,?TicketType)";
                     }
                     else
                     {
                         //修改
-                        sql = $"UPDATE `{_tableName}` SET `Ticket`=@Ticket,`ExpiredIn`=@ExpiredIn,`LastModifiedTime`=@LastModifiedTime WHERE `AppId`=@AppId AND `TicketType`=@TicketType";
+                        sql = $"UPDATE {GetSchemaSdkTicketTableName()} SET `Ticket`=@Ticket,`ExpiredIn`=?ExpiredIn,`UpdateTime`=?UpdateTime WHERE `AppId`=?AppId AND `TicketType`=?TicketType";
                     }
                     await connection.ExecuteAsync(sql, sdkTicket);
 

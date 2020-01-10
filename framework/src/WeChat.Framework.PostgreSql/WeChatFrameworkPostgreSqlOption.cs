@@ -8,12 +8,16 @@ namespace WeChat.Framework
         /// </summary>
         public string DbConnectionString { get; set; }
 
+        /// <summary>Schema
+        /// </summary>
+        public string Schema { get; set; } = "wechat";
+
         /// <summary>AccessToken存储的表名称
         /// </summary>
-        public string AccessTokenTableName { get; set; } = "WeChat_AccessTokens";
+        public string AccessTokenTableName { get; set; } = "access_tokens";
 
         /// <summary>SdkTicket存储的表名称
         /// </summary>
-        public string SdkTicketTableName { get; set; } = "WeChat_SdkTickets";
+        public string SdkTicketTableName { get; set; } = "sdk_tickets";
     }
 }

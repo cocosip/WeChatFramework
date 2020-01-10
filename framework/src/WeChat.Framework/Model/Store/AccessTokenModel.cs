@@ -21,13 +21,13 @@ namespace WeChat.Framework.Model
 
         /// <summary>最后修改时间
         /// </summary>
-        public DateTime LastModifiedTime { get; set; }
+        public DateTime UpdateTime { get; set; }
 
         /// <summary>在某个时间下,是否过期
         /// </summary>
         public bool IsExpired(DateTime expiredTime)
         {
-            var totalSeconds = (expiredTime - LastModifiedTime).TotalSeconds;
+            var totalSeconds = (expiredTime - UpdateTime).TotalSeconds;
             if (totalSeconds > ExpiredIn)
             {
                 return true;
@@ -39,7 +39,7 @@ namespace WeChat.Framework.Model
         /// </summary>
         public override string ToString()
         {
-            return $"[AppId:{AppId},Token:{Token},ExpiredIn:{ExpiredIn},LastModifiedTime:{LastModifiedTime.ToString("yyyy-MM-dd HH:mm:ss")}]";
+            return $"[AppId:{AppId},Token:{Token},ExpiredIn:{ExpiredIn},UpdateTime:{UpdateTime.ToString("yyyy-MM-dd HH:mm:ss")}]";
         }
     }
 }
