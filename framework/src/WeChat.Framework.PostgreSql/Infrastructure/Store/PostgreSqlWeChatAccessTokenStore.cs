@@ -27,7 +27,7 @@ namespace WeChat.Framework.Infrastructure.Store
             {
                 using (var connection = GetConnection())
                 {
-                    var sql = $@"SELECT TOP 1 * FROM {GetSchemaAccessTokenTableName()} WHERE ""appid""=:AppId";
+                    var sql = $@"SELECT TOP 1 * FROM {GetSchemaAccessTokenTableName()} WHERE ""appid""=@AppId";
                     return await connection.QueryFirstOrDefaultAsync<AccessTokenModel>(sql, new { AppId = appId });
                 }
             }
