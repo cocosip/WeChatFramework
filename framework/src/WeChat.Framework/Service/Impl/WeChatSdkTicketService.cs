@@ -71,11 +71,11 @@ namespace WeChat.Framework.Service
             }
             var ticketType = type.ToUpper();
 
-            IRestRequest request = new RestRequest(WeChatSettings.WeChatUrls.SdkTicketResource, Method.GET);
+            IRestRequest request = new RestRequest(WeChatSettings.WeChatUrls.SdkTicketResource);
             request
                 .AddParameter("access_token", accessToken)
                 .AddParameter("type", type);
-            var response = await Client.ExecuteTaskAsync(request);
+            var response = await Client.ExecuteAsync(request, Method.GET);
 
             Logger.LogDebug(ParseLog(appId, "GetRemoteSdkTicketAsync", $"获取应用SdkTicket,类型:{type},返回结果:{response.Content}"));
             var sdkTicket = JsonResponseParser.ParseResponse<SdkTicket>(response.Content);

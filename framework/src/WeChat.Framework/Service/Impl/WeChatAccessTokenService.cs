@@ -58,12 +58,12 @@ namespace WeChat.Framework.Service
         /// <returns></returns>
         public async Task<AccessToken> GetRemoteAccessTokenAsync(string appId, string appSecret)
         {
-            IRestRequest request = new RestRequest(WeChatSettings.WeChatUrls.AccessTokenResource, Method.GET);
+            IRestRequest request = new RestRequest(WeChatSettings.WeChatUrls.AccessTokenResource);
             request
                 .AddParameter("appid", appId)
                 .AddParameter("secret", appSecret)
                 .AddParameter("grant_type", "client_credential");
-            var response = await Client.ExecuteTaskAsync(request);
+            var response = await Client.ExecuteAsync(request, Method.GET);
             Logger.LogDebug(ParseLog(appId, "GetRemoteAccessToken", $"获取应用AccessToken,返回结果:{response.Content}"));
             return JsonResponseParser.ParseResponse<AccessToken>(response.Content);
         }
