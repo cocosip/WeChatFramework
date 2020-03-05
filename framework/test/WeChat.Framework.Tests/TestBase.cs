@@ -16,11 +16,12 @@ namespace WeChat.Framework.Tests
             IServiceCollection services = new ServiceCollection();
             services.AddLogging(c =>
                 {
-                   // c.AddLog4Net();
+                    // c.AddLog4Net();
                 })
                 .AddDotCommon()
                 .AddGenericsMemoryCache()
                 .AddJson4Net()
+                .AddHttpClient()
                 .AddWeChatFramework();
 
             Provider = services.BuildServiceProvider();

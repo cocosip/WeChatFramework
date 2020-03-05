@@ -1,8 +1,8 @@
 using DotCommon.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RestSharp;
 using System;
+using System.Net.Http;
 using WeChat.Framework.Parser;
 
 namespace WeChat.Framework.Service
@@ -23,20 +23,20 @@ namespace WeChat.Framework.Service
         /// </summary>
         protected IJsonResponseParser JsonResponseParser { get; }
 
-        /// <summary>Http请求客户端
+        /// <summary>HttpClientFactory
         /// </summary>
-        protected IRestClient Client { get; }
+        protected IHttpClientFactory HttpClientFactory { get; }
 
         /// <summary>Ctor
         /// </summary>
-        protected WeChatFrameServiceBase(IServiceProvider provider, ILogger<WeChatFrameServiceBase> logger)
+        protected WeChatFrameServiceBase(IServiceProvider provider, ILogger<WeChatFrameServiceBase> logger, IHttpClientFactory httpClientFactory)
         {
             Provider = provider;
             Logger = logger;
 
             //其他
             JsonResponseParser = Provider.GetService<IJsonResponseParser>();
-            Client = new RestClient(WeChatSettings.WeChatUrls.BaseUrl);
+            HttpClientFactory = httpClientFactory;
         }
 
         /// <summary>格式化日志

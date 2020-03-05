@@ -1,7 +1,7 @@
 using DotCommon.Extensions;
 using Microsoft.Extensions.Logging;
-using RestSharp;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using WeChat.Framework.Infrastructure.Store;
 using WeChat.Framework.Model;
@@ -18,7 +18,7 @@ namespace WeChat.Framework.Service
 
         /// <summary>Ctor
         /// </summary>
-        public WeChatSdkTicketService(IServiceProvider provider, ILogger<WeChatFrameServiceBase> logger, IWeChatSdkTicketStore weChatSdkTicketStore, IWeChatAccessTokenService weChatAccessTokenService) : base(provider, logger)
+        public WeChatSdkTicketService(IServiceProvider provider, ILogger<WeChatFrameServiceBase> logger, IWeChatSdkTicketStore weChatSdkTicketStore, IWeChatAccessTokenService weChatAccessTokenService, IHttpClientFactory httpClientFactory) : base(provider, logger, httpClientFactory)
         {
             _weChatSdkTicketStore = weChatSdkTicketStore;
             _weChatAccessTokenService = weChatAccessTokenService;
@@ -71,14 +71,17 @@ namespace WeChat.Framework.Service
             }
             var ticketType = type.ToUpper();
 
-            IRestRequest request = new RestRequest(WeChatSettings.WeChatUrls.SdkTicketResource);
-            request
-                .AddParameter("access_token", accessToken)
-                .AddParameter("type", type);
-            var response = await Client.ExecuteAsync(request, Method.GET);
+            var url = $"{WeChatSettings.WeChatUrls.BaseUrl}{WeChatSettings.WeChatUrls.SdkTicketResource}?access_token={accessToken}&type={type}";
+            var client = HttpClientFactory.CreateClient();
+            var response = await client.GetAsync(url);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"获取微信SdkTicket失败,请求url地址:[{url}],返回Http状态:{response.StatusCode}");
+            }
+            var responseString = await response.Content.ReadAsStringAsync();
 
-            Logger.LogDebug(ParseLog(appId, "GetRemoteSdkTicketAsync", $"获取应用SdkTicket,类型:{type},返回结果:{response.Content}"));
-            var sdkTicket = JsonResponseParser.ParseResponse<SdkTicket>(response.Content);
+            Logger.LogDebug(ParseLog(appId, "GetRemoteSdkTicketAsync", $"获取应用SdkTicket,类型:{type},返回结果:{responseString}"));
+            var sdkTicket = JsonResponseParser.ParseResponse<SdkTicket>(responseString);
             //设置SdkTicket类型
             sdkTicket.Type = ticketType;
             return sdkTicket;

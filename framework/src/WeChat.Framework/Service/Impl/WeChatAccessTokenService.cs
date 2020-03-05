@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
-using RestSharp;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using WeChat.Framework.Infrastructure.Store;
 using WeChat.Framework.Model;
@@ -18,7 +18,7 @@ namespace WeChat.Framework.Service
 
         /// <summary>Ctor
         /// </summary>
-        public WeChatAccessTokenService(IServiceProvider provider, ILogger<WeChatFrameServiceBase> logger, IWeChatAccessTokenStore weChatAccessTokenStore) : base(provider, logger)
+        public WeChatAccessTokenService(IServiceProvider provider, ILogger<WeChatFrameServiceBase> logger, IWeChatAccessTokenStore weChatAccessTokenStore, IHttpClientFactory httpClientFactory) : base(provider, logger, httpClientFactory)
         {
             _weChatAccessTokenStore = weChatAccessTokenStore;
         }
@@ -58,14 +58,19 @@ namespace WeChat.Framework.Service
         /// <returns></returns>
         public async Task<AccessToken> GetRemoteAccessTokenAsync(string appId, string appSecret)
         {
-            IRestRequest request = new RestRequest(WeChatSettings.WeChatUrls.AccessTokenResource);
-            request
-                .AddParameter("appid", appId)
-                .AddParameter("secret", appSecret)
-                .AddParameter("grant_type", "client_credential");
-            var response = await Client.ExecuteAsync(request, Method.GET);
-            Logger.LogDebug(ParseLog(appId, "GetRemoteAccessToken", $"获取应用AccessToken,返回结果:{response.Content}"));
-            return JsonResponseParser.ParseResponse<AccessToken>(response.Content);
+            var client = HttpClientFactory.CreateClient();
+
+            var url = $"{WeChatSettings.WeChatUrls.BaseUrl}{WeChatSettings.WeChatUrls.AccessTokenResource}?appid={appId}&secret={appSecret}&grant_type=client_credential";
+            var response = await client.GetAsync(url);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"获取微信AccessToken失败,请求url地址:[{url}],返回Http状态:{response.StatusCode}");
+            }
+            //返回字符串
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            Logger.LogDebug(ParseLog(appId, "GetRemoteAccessToken", $"获取应用AccessToken,返回结果:{responseString}"));
+            return JsonResponseParser.ParseResponse<AccessToken>(responseString);
         }
 
     }
