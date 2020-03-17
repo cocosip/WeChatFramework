@@ -2,7 +2,7 @@
   
   <Import Project="..\..\..\build\common.props" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>WeChat.Framework.Oracle</AssemblyName>
     <PackageId>WeChat.Framework.Oracle</PackageId>
     <RootNamespace>WeChat.Framework</RootNamespace>
@@ -13,11 +13,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Debug\netstandard2.0\WeChat.Framework.Oracle.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.1\WeChat.Framework.Oracle.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\WeChat.Framework.Oracle.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.1\WeChat.Framework.Oracle.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
   </PropertyGroup>
