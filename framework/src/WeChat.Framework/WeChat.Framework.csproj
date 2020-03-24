@@ -1,31 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
- <Import Project="..\..\..\build\common.props" />
+  <Import Project="..\..\..\build\common.props" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <AssemblyName>WeChat.Framework</AssemblyName>
     <PackageId>WeChat.Framework</PackageId>
     <Description>WeChat.Framework微信基础库(针对AccessToken,SdkTicket等的存储管理)</Description>
   </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)|$(TargetFramework)'=='Debug|AnyCPU|netstandard2.0'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <DocumentationFile>bin\Debug\netstandard2.0\WeChat.Framework.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)|$(TargetFramework)'=='Release|AnyCPU|netstandard2.0'">
+    <DocumentationFile>bin\Release\netstandard2.0\WeChat.Framework.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)|$(TargetFramework)'=='Debug|AnyCPU|netstandard2.1'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <DocumentationFile>bin\Debug\netstandard2.1\WeChat.Framework.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)|$(TargetFramework)'=='Release|AnyCPU|netstandard2.1'">
     <DocumentationFile>bin\Release\netstandard2.1\WeChat.Framework.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
   </PropertyGroup>
 
 
+
   <ItemGroup>
-    <PackageReference Include="DotCommon" Version="4.0.0.2-Pre" />
-    <PackageReference Include="DotCommon.AutoMapper" Version="4.0.0.1-Pre" />
-    <PackageReference Include="DotCommon.Caching" Version="4.0.0.2-Pre" />
-    <PackageReference Include="DotCommon.Json4Net" Version="4.0.0.2-Pre" />
+    <PackageReference Include="DotCommon" Version="4.0.0.3-Pre" />
+    <PackageReference Include="DotCommon.AutoMapper" Version="4.0.0.3-Pre" />
+    <PackageReference Include="DotCommon.Caching" Version="4.0.0.3-Pre" />
+    <PackageReference Include="DotCommon.Json4Net" Version="4.0.0.3-Pre" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.2" />
   </ItemGroup>
 </Project>
