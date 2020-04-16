@@ -13,10 +13,8 @@ namespace WeChat.Framework
         /// </summary>
         public static IServiceCollection AddWeChatFrameworkMySql(this IServiceCollection services, Action<WeChatFrameworkMySqlOption> configure)
         {
-            var weChatFrameworkSqlServerOption = new WeChatFrameworkMySqlOption();
-            configure(weChatFrameworkSqlServerOption);
             services
-                .AddSingleton<WeChatFrameworkMySqlOption>(weChatFrameworkSqlServerOption)
+                .Configure<WeChatFrameworkMySqlOption>(configure)
                 .AddTransient<IWeChatSdkTicketStore, MySqlWeChatSdkTicketStore>()
                 .AddTransient<IWeChatAccessTokenStore, MySqlWeChatAccessTokenStore>();
             return services;

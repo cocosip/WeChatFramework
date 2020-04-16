@@ -1,6 +1,7 @@
 using Dapper;
 using DotCommon.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Npgsql;
 using System.Threading.Tasks;
 using WeChat.Framework.Model;
@@ -13,9 +14,9 @@ namespace WeChat.Framework.Infrastructure.Store
     {
         /// <summary>Ctor
         /// </summary>
-        public PostgreSqlWeChatSdkTicketStore(WeChatFrameworkPostgreSqlOption option, ILogger<BasePostgreSqlStore> logger) : base(option, logger)
+        public PostgreSqlWeChatSdkTicketStore(IOptions<WeChatFrameworkPostgreSqlOption> option, ILogger<BasePostgreSqlStore> logger) : base(option, logger)
         {
-       
+
         }
 
         /// <summary>根据应用Id,ticket类型获取Sdk-Ticket

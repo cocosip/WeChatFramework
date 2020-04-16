@@ -1,6 +1,7 @@
 using Dapper;
 using DotCommon.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Oracle.ManagedDataAccess.Client;
 using System.Threading.Tasks;
 using WeChat.Framework.Model;
@@ -14,9 +15,9 @@ namespace WeChat.Framework.Infrastructure.Store
 
         /// <summary>Ctor
         /// </summary>
-        public OracleWeChatSdkTicketStore(WeChatFrameworkOracleOption option, ILogger<BaseOracleStore> logger) : base(option, logger)
+        public OracleWeChatSdkTicketStore(IOptions<WeChatFrameworkOracleOption> option, ILogger<BaseOracleStore> logger) : base(option, logger)
         {
-        
+
         }
 
         /// <summary>根据应用Id,ticket类型获取Sdk-Ticket

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Npgsql;
 
 namespace WeChat.Framework
@@ -17,9 +18,9 @@ namespace WeChat.Framework
 
         /// <summary>Ctor
         /// </summary>
-        protected BasePostgreSqlStore(WeChatFrameworkPostgreSqlOption option, ILogger<BasePostgreSqlStore> logger)
+        protected BasePostgreSqlStore(IOptions<WeChatFrameworkPostgreSqlOption> option, ILogger<BasePostgreSqlStore> logger)
         {
-            Option = option;
+            Option = option.Value;
             Logger = logger;
         }
 

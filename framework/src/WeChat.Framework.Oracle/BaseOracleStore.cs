@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Oracle.ManagedDataAccess.Client;
 
 namespace WeChat.Framework
@@ -16,9 +17,9 @@ namespace WeChat.Framework
 
         /// <summary>Ctor
         /// </summary>
-        protected BaseOracleStore(WeChatFrameworkOracleOption option, ILogger<BaseOracleStore> logger)
+        protected BaseOracleStore(IOptions<WeChatFrameworkOracleOption> option, ILogger<BaseOracleStore> logger)
         {
-            Option = option;
+            Option = option.Value;
             Logger = logger;
         }
 

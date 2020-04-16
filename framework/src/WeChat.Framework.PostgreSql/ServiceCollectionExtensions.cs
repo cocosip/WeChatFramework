@@ -13,10 +13,8 @@ namespace WeChat.Framework
         /// </summary>
         public static IServiceCollection AddWeChatFrameworkPostgreSql(this IServiceCollection services, Action<WeChatFrameworkPostgreSqlOption> configure)
         {
-            var weChatFrameworkSqlServerOption = new WeChatFrameworkPostgreSqlOption();
-            configure(weChatFrameworkSqlServerOption);
             services
-                .AddSingleton<WeChatFrameworkPostgreSqlOption>(weChatFrameworkSqlServerOption)
+                .Configure<WeChatFrameworkPostgreSqlOption>(configure)
                 .AddTransient<IWeChatSdkTicketStore, PostgreSqlWeChatSdkTicketStore>()
                 .AddTransient<IWeChatAccessTokenStore, PostgreSqlWeChatAccessTokenStore>();
             return services;

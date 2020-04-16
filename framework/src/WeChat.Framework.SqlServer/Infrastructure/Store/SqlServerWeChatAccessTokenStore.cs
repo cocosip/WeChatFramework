@@ -1,6 +1,7 @@
 using Dapper;
 using DotCommon.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using WeChat.Framework.Model;
@@ -14,7 +15,7 @@ namespace WeChat.Framework.Infrastructure.Store
 
         /// <summary>Ctor
         /// </summary>
-        public SqlServerWeChatAccessTokenStore(WeChatFrameworkSqlServerOption option, ILogger<BaseSqlServerStore> logger) : base(option, logger)
+        public SqlServerWeChatAccessTokenStore(IOptions<WeChatFrameworkSqlServerOption> option, ILogger<BaseSqlServerStore> logger) : base(option, logger)
         {
            
         }

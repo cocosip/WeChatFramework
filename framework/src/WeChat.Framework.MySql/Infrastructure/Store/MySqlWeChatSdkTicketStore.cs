@@ -1,6 +1,7 @@
 using Dapper;
 using DotCommon.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 using WeChat.Framework.Model;
@@ -13,9 +14,9 @@ namespace WeChat.Framework.Infrastructure.Store
     {
         /// <summary>Ctor
         /// </summary>
-        public MySqlWeChatSdkTicketStore(WeChatFrameworkMySqlOption option, ILogger<BaseMySqlStore> logger) : base(option, logger)
+        public MySqlWeChatSdkTicketStore(IOptions<WeChatFrameworkMySqlOption> option, ILogger<BaseMySqlStore> logger) : base(option, logger)
         {
-        
+
         }
 
 

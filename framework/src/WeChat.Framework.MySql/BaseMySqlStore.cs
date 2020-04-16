@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MySql.Data.MySqlClient;
 
 namespace WeChat.Framework
@@ -17,9 +18,9 @@ namespace WeChat.Framework
 
         /// <summary>Ctor
         /// </summary>
-        protected BaseMySqlStore(WeChatFrameworkMySqlOption option, ILogger<BaseMySqlStore> logger)
+        protected BaseMySqlStore(IOptions<WeChatFrameworkMySqlOption> option, ILogger<BaseMySqlStore> logger)
         {
-            Option = option;
+            Option = option.Value;
             Logger = logger;
         }
 

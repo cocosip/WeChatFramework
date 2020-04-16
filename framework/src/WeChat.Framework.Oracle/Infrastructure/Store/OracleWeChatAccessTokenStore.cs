@@ -1,6 +1,7 @@
 using Dapper;
 using DotCommon.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Oracle.ManagedDataAccess.Client;
 using System.Threading.Tasks;
 using WeChat.Framework.Model;
@@ -13,7 +14,7 @@ namespace WeChat.Framework.Infrastructure.Store
     {
         /// <summary>Ctor
         /// </summary>
-        public OracleWeChatAccessTokenStore(WeChatFrameworkOracleOption option, ILogger<BaseOracleStore> logger) : base(option, logger)
+        public OracleWeChatAccessTokenStore(IOptions<WeChatFrameworkOracleOption> option, ILogger<BaseOracleStore> logger) : base(option, logger)
         {
 
         }

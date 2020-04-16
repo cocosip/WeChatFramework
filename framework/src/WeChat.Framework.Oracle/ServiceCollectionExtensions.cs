@@ -13,10 +13,8 @@ namespace WeChat.Framework
         /// </summary>
         public static IServiceCollection AddWeChatFrameworkOracle(this IServiceCollection services, Action<WeChatFrameworkOracleOption> configure)
         {
-            var weChatFrameworkSqlServerOption = new WeChatFrameworkOracleOption();
-            configure(weChatFrameworkSqlServerOption);
             services
-                .AddSingleton<WeChatFrameworkOracleOption>(weChatFrameworkSqlServerOption)
+                .Configure<WeChatFrameworkOracleOption>(configure)
                 .AddTransient<IWeChatSdkTicketStore, OracleWeChatSdkTicketStore>()
                 .AddTransient<IWeChatAccessTokenStore, OracleWeChatAccessTokenStore>();
             return services;

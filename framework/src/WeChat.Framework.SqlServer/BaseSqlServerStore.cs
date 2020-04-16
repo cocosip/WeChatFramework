@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Data.SqlClient;
 
 namespace WeChat.Framework
@@ -17,9 +18,9 @@ namespace WeChat.Framework
 
         /// <summary>Ctor
         /// </summary>
-        protected BaseSqlServerStore(WeChatFrameworkSqlServerOption option, ILogger<BaseSqlServerStore> logger)
+        protected BaseSqlServerStore(IOptions<WeChatFrameworkSqlServerOption> option, ILogger<BaseSqlServerStore> logger)
         {
-            Option = option;
+            Option = option.Value;
             Logger = logger;
         }
 

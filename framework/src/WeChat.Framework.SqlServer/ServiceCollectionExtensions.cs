@@ -13,10 +13,8 @@ namespace WeChat.Framework
         /// </summary>
         public static IServiceCollection AddWeChatFrameworkSqlServer(this IServiceCollection services, Action<WeChatFrameworkSqlServerOption> configure)
         {
-            var weChatFrameworkSqlServerOption = new WeChatFrameworkSqlServerOption();
-            configure(weChatFrameworkSqlServerOption);
             services
-                .AddSingleton<WeChatFrameworkSqlServerOption>(weChatFrameworkSqlServerOption)
+                .Configure<WeChatFrameworkSqlServerOption>(configure)
                 .AddTransient<IWeChatSdkTicketStore, SqlServerWeChatSdkTicketStore>()
                 .AddTransient<IWeChatAccessTokenStore, SqlServerWeChatAccessTokenStore>();
             return services;
